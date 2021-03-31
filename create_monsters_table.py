@@ -1,4 +1,15 @@
-create table monsters (
+import psycopg2
+
+conn = psycopg2.connect(
+    host="localhost",
+    database="postgres",
+    user="postgres",
+    password="postgres"
+)
+
+cur = conn.cursor()
+
+create = '''create table monsters (
     id	integer,
     name	text,
     incomplete	boolean,
@@ -45,4 +56,10 @@ create table monsters (
     ranged_strength	integer,		
     magic_damage	integer,		
     drops	text[]
-)
+);
+'''
+
+cur.execute(create)
+conn.commit()
+
+cur.close()
