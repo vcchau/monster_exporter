@@ -4,7 +4,10 @@ class Monster:
 
     def __init__(self, info):
         self.id = info.get('id', 'null') or 'null'
-        self.name = info.get('name', 'null') or 'null'
+
+        name = info.get('name', 'null') or 'null'
+        self.name = self.format_for_psql(name)
+        
         self.incomplete = info.get('incomplete', 'null') or 'null'
         self.members	= info.get('members', 'null') or 'null'
         self.release_date = info.get('release_date', 'null') or 'null'
@@ -36,10 +39,16 @@ class Monster:
         self.slayer_masters = 'null'
 
         self.duplicate = info.get('duplicate', 'null') or 'null'
-        self.examine	= str(info.get('examine', 'null') or 'null')
+        examine = str(info.get('examine', 'null') or 'null')
+        self.examine	= self.format_for_psql(examine)
         self.icon = info.get('icon', 'null') or 'null'
-        self.wiki_name = info.get('wiki_name', 'null') or 'null'
-        self.wiki_url = info.get('wiki_url', 'null') or 'null'
+
+        wiki_name = info.get('wiki_name', 'null') or 'null'
+        self.wiki_name = self.format_for_psql(wiki_name)
+
+        wiki_url = info.get('wiki_url', 'null') or 'null'
+        self.wiki_url = self.format_for_psql(wiki_url)
+
         self.attack_level = info.get('attack_level', 0)
         self.strength_level = info.get('strength_level', 0)
         self.defence_level = info.get('defence_level', 0)	
@@ -62,4 +71,8 @@ class Monster:
         
         # self.drops = json.dumps(info.get('drops', 'null') or 'null')
         self.drops = 'null'
+
+    @staticmethod
+    def format_for_psql(text):
+        return str(text.replace("'", "").replace('(', '').replace(')', ''))
 
