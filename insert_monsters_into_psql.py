@@ -18,6 +18,7 @@ conn = psycopg2.connect(
     password="postgres"
 )
 
+
 cur = conn.cursor()
 cur.execute('set search_path = "runescape"')
 
